@@ -9,35 +9,40 @@ function CardProduct({ products = [] }) {
   const [values, setValues] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [totalItems, setTotalItems] = useState(0);
-  const  Context = useContext(AppContext);
+  const { setData } = useContext(AppContext);
 
-  console.log(Context)
+  
 
   const formattedNumber = (currency) => {
     const priceInteger = currency / 100;
     const priceFormatted = priceInteger
 
-    return  priceFormatted
+    return priceFormatted
   };
-
 
   useEffect(() => {
     const total = values.reduce((acc, cur) => cur + acc, 0);
-      setTotalPrice(total);
-      setTotalItems(values.length);
+    const money = total.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+    setTotalPrice(total);
+    setTotalItems(values.length);
 
-      Context.price = totalPrice
-      Context.items = totalItems
-      
-  }, [products, values, Context, totalPrice, totalItems ])
+    setData({
+      price: totalPrice,
+      items: totalItems,
+      money: money
+    });
+
+    console.log('money', money)
+
+
+  }, [products, values, setData, totalPrice, totalItems])
 
   const addProduct = (index, sellingPrice) => {
     const valueFormated = formattedNumber(sellingPrice)
 
     setValues([...values, valueFormated]);
+
   };
-  console.log(totalPrice)
-  
 
   return (
     <S.Container>
@@ -53,7 +58,7 @@ function CardProduct({ products = [] }) {
               <p className='price'>{formattedNumber(item.sellingPrice).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</p>
             </S.Description>
             <S.ButtonContainer>
-              <AiOutlinePlusCircle onClick={() => addProduct(index, item.sellingPrice)}/>
+              <AiOutlinePlusCircle onClick={() => addProduct(index, item.sellingPrice)} />
             </S.ButtonContainer>
           </S.Information>
         </S.Content>

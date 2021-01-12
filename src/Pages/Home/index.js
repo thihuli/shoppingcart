@@ -1,12 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect} from 'react';
 
 import Header from '../../Components/Header';
 import CardProducts from '../../Components/CardProduct';
 import Footer from '../../Components/Footer';
 
 import api from '../../Services/api';
-
-import AppContext from '../../Context/AppContext';
 
 import * as S from './styles';
 
@@ -27,16 +25,12 @@ function Home() {
   return (
     <S.Container>
       <S.BoxMarket>
-        <Header title='Meu Carrinho'/>
+        <Header title='Meu carrinho' />
 
         <S.Products>
+          <CardProducts products={truffles} />
         </S.Products>
-          <CardProducts products={truffles}/>
-        <Footer/>
-        {/* <div className='box'>
-
-        </div> */}
-
+          <Footer />
       </S.BoxMarket>
     </S.Container>
   );
